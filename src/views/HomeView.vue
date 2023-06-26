@@ -1,18 +1,46 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+<h1>Home</h1>
+<div id="content"></div>
+
+<Footer/>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import Footer from '../components/Footer';
+        export default{
+            components:{
+                  Footer
+            },};
 
-export default {
-  name: 'HomeView',
-  components: {
-    HelloWorld
+      async function getNames(){
+      const data = await fetch('https://laiquah.github.io/jsonserver/server.json')
+      const formatData = await data.json()
+
+     let fetchingdata = formatData.students
+
+      const display = document.querySelector('#content')
+      fetchingdata.forEach(students =>{
+      display.innerHTML += `
+      <div class="card">
+          <div class="card-body">
+            <h3 class="card-title">${students.first_name} ${students.last_name}</h3>
+            <p class="card-text">${students.email}</p>
+          </div>
+        </div>
+    `
+  })
   }
-}
+    getNames()
+
+
+
+
+
+
 </script>
+
+<style scoped>
+
+</style>
